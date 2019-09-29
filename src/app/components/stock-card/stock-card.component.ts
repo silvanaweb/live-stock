@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { StockItem } from "../../services/stock.service";
+import { Component, Input } from "@angular/core";
+import { StreamedStockType } from "../../app.component";
 
 @Component({
   selector: "app-stock-card",
@@ -7,7 +7,7 @@ import { StockItem } from "../../services/stock.service";
   styleUrls: ["./stock-card.component.css"]
 })
 export class StockCardComponent {
-  @Input() stock: StockItem;
+  @Input() stock: StreamedStockType;
 
   constructor() {}
 }

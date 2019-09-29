@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { StockItem } from "../../services/stock.service";
+import { StockItemType } from "../../services/stock.service";
 
 @Component({
   selector: "app-stock-list",
@@ -7,5 +7,5 @@ import { StockItem } from "../../services/stock.service";
   styleUrls: ["./stock-list.component.css"]
 })
 export class StockListComponent {
-  @Input() stockList: Array<StockItem>;
+  @Input() stockList: Array<StockItemType>;
 }

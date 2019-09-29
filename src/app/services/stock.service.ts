@@ -1,41 +1,48 @@
 import { Injectable } from "@angular/core";
+import { interval, from, Observable } from "rxjs";
+import { switchMap } from "rxjs/operators";
 
-type StockItem = {
+type StockItemType = {
   name: string;
   price: number;
 };
-const mapToStockItem: (
+
+const mapToStockItemType: (
   price: number
-) => (name: string) => StockItem = price => name => ({
+) => (name: string) => StockItemType = price => name => ({
   name,
   price
 });
-const setPriceToStockItem: (item: StockItem, price: number) => StockItem = (
-  item,
-  price
-) => ({
+const setPriceToStockItemType: (
+  item: StockItemType,
+  price: number
+) => StockItemType = (item, price) => ({
   name: item.name,
   price
 });
-const stockProducts: Array<StockItem> = ["Stock 1", "Stock 2", "Stock 3"].map(
-  mapToStockItem(0)
-);
+const stockProducts: Array<StockItemType> = [
+  "Stock 1",
+  "Stock 2",
+  "Stock 3"
+].map(mapToStockItemType(0));
 
 @Injectable({
   providedIn: "root"
 })
 class StockService {
-  stockStream: (
-    stockProducts: Array<StockItem>
-  ) => Array<StockItem> = products => {
-    return products.map(stockItem =>
-      setPriceToStockItem(stockItem, Math.random() * 3 + 8)
+  createStockValues: (
+    stockProducts: Array<StockItemType>
+  ) => Array<StockItemType> = products => {
+    return products.map(StockItemType =>
+      setPriceToStockItemType(StockItemType, Math.random() * 3 + 8)
     );
   };
 
-  getListStock() {
-    return this.stockStream(stockProducts);
+  getListStock(): Observable<StockItemType> {
+    return interval(1000).pipe(
+      switchMap(() => from(this.createStockValues(stockProducts)))
+    );
   }
 }
 
-export { StockService, StockItem, mapToStockItem };
+export { StockService, StockItemType, mapToStockItemType };
