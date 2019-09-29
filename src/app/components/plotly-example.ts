@@ -14,7 +14,11 @@ export class PlotlyExampleComponent {
   @Input() xCoords: Array<number>;
   @Input() yCoords: Array<number>;
 
-  public layout = { height: 300 };
+  public layout = {
+    height: 300,
+    xaxis: { range: [1, 60] },
+    yaxis: { range: [4, 12] }
+  };
 
   getData(xCoords, yCoords) {
     return [
