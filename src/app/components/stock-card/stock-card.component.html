@@ -1,6 +1,11 @@
-<div>
-  <h2>
-    {{ stock.name }}
-  </h2>
-  <p>{{ stock.price | number: "1.1-2" }}</p>
+<div class="stock-card">
+  <div class="stock-card__content">
+    <h2>
+      {{ stock.name }}
+    </h2>
+    <p class="stock-card__price">{{ stock.price | number: "1.1-2" }}</p>
+  </div>
+  <div class="stock-card__plot">
+    <div style="background-color: teal; width: 100%; height: 200px;">plot</div>
+  </div>
 </div>
