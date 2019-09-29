@@ -1,13 +1,16 @@
-import { Component, Input } from "@angular/core";
-import { StreamedStockType } from "../../app.component";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
   selector: "app-stock-card",
   templateUrl: "./stock-card.component.html",
-  styleUrls: ["./stock-card.component.css"]
+  styleUrls: ["./stock-card.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StockCardComponent {
-  @Input() stock: StreamedStockType;
+  @Input() name: string = "";
+  @Input() prices: Array<number> = [];
 
-  constructor() {}
+  public createTimeArray(length: number) {
+    return [...Array(length).keys()];
+  }
 }

@@ -2,6 +2,10 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { StockCardComponent } from "./stock-card.component";
 import { Component } from "@angular/core";
+import { PlotlyExampleComponent } from "../plotly-example";
+import * as PlotlyJS from "plotly.js/dist/plotly.js";
+import { PlotlyModule } from "angular-plotly.js";
+PlotlyModule.plotlyjs = PlotlyJS;
 
 describe("StockCardComponent", () => {
   let testHostComponent: TestHostComponent;
@@ -9,7 +13,12 @@ describe("StockCardComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StockCardComponent, TestHostComponent]
+      declarations: [
+        StockCardComponent,
+        TestHostComponent,
+        PlotlyExampleComponent
+      ],
+      imports: [PlotlyModule]
     }).compileComponents();
   }));
 
@@ -32,10 +41,13 @@ describe("StockCardComponent", () => {
   @Component({
     selector: `host-component`,
     template: `
-      <app-stock-card [stock]="stock"></app-stock-card>
+      <app-stock-card
+        [name]="stock.name"
+        [prices]="stock.prices"
+      ></app-stock-card>
     `
   })
   class TestHostComponent {
-    public stock = { name: "Stock", price: 0 };
+    public stock = { name: "Stock", prices: [0] };
   }
 });

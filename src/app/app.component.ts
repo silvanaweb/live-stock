@@ -8,7 +8,7 @@ type StreamedStockType = {
 };
 type MappedStockType = Record<string, Array<number>>;
 
-const MAX_WiDTH = 60;
+const MAX_LENGTH = 60;
 
 @Component({
   selector: "app-root",
@@ -27,19 +27,34 @@ class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const obs = this.stockService.getListStock();
     this.stockSubscription = obs.subscribe(s => {
-      // console.log(`${s.name} ${s.price}`);
       this.createStockDisplay(s);
     });
   }
 
   createStockDisplay(newStockValue: StockItemType) {
     this.stockMap[newStockValue.name] = this.stockMap[newStockValue.name]
-      ? [...this.stockMap[newStockValue.name], newStockValue.price]
+      ? this.updatePrices(
+          this.stockMap[newStockValue.name],
+          newStockValue.price
+        )
       : [newStockValue.price];
-    this.stockList = Object.entries(this.stockMap).map(([name, prices]) => ({
-      name,
-      prices
-    }));
+    const stock = this.stockList.find(item => item.name === newStockValue.name);
+    if (stock) {
+      stock.prices = this.stockMap[newStockValue.name];
+    } else {
+      this.stockList.push({
+        name: newStockValue.name,
+        prices: this.stockMap[newStockValue.name]
+      });
+    }
+  }
+
+  updatePrices(prices: Array<number>, newPrice: number): Array<number> {
+    if (prices.length < MAX_LENGTH) {
+      return [...prices, newPrice];
+    } else {
+      return [...prices.slice(1), newPrice];
+    }
   }
 
   ngOnDestroy() {

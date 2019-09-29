@@ -3,11 +3,21 @@ import { AppComponent } from "./app.component";
 import { StockListComponent } from "./components/stock-list/stock-list.component";
 import { StockCardComponent } from "./components/stock-card/stock-card.component";
 import { StockService } from "./services/stock.service";
+import { PlotlyExampleComponent } from "./components/plotly-example";
+import * as PlotlyJS from "plotly.js/dist/plotly.js";
+import { PlotlyModule } from "angular-plotly.js";
+PlotlyModule.plotlyjs = PlotlyJS;
 
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, StockListComponent, StockCardComponent],
+      declarations: [
+        AppComponent,
+        StockListComponent,
+        StockCardComponent,
+        PlotlyExampleComponent
+      ],
+      imports: [PlotlyModule],
       providers: [StockService]
     }).compileComponents();
   }));
